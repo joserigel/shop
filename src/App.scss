@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+$stylizedFont: 'Permanent Marker', cursive;
+$normalFont: 'Rubik', sans-serif;
+
+$mobile: 768px;
+
+html {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+
+#main-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 5px;
+  padding-right: 5px;
+  border: solid black;
+  border-width: 0 0 2px 0;
+  background-color: white;
+
+  ul {
+    list-style-type: none;
+    padding: 5px;
+    margin: 0;
+
+    li {
+      display: inline-block;
+      cursor: pointer;
+    }
+  }
+
+  .left {
+    li {
+      height: 100%;
+      display: inline-block;
+      position: relative;
+      margin: 5px;
+
+      &:first-child {
+        font-family: $stylizedFont;
+        font-size: 32px;
+        color: rgb(186, 8, 8);
+      }
+
+      &:nth-child(2) {
+        margin-left: 15px;
+      }
+
+      &:not(:first-child) {
+        font-family: $normalFont;
+        font-size: 20px;
+
+        @media (max-width: $mobile) {
+          display: none;
+        }
+      }
+
+      &:not(:first-child):after {
+        content: '';
+        position: absolute;
+        background-color: black;
+        bottom: 0;
+        left: 0;
+        height: 0.1em;
+        width: 100%;
+        transform: scaleX(0);
+        transition: transform 0.3s ease-out;
+      }
+
+      &:not(:first-child):hover::after {
+        transform: scaleX(1);
+      }
+    }
+  }
+
+  .right {
+    li {
+      position: relative;
+      border-radius: 50%;
+      height: 40px;
+      width: 40px;
+      transition: background-color 0.3s ease-out;
+
+      &:not(:first-child){
+        @media (max-width: $mobile) {
+          display: none;
+        }
+      }
+
+      &:first-child {
+        @media (min-width: $mobile) {
+          display: none;
+        }
+      }
+
+    }
+
+    li:hover {
+      background-color: rgb(217, 217, 217);
+    }
+
+    img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      height: 85%;
+    }
+  }
+}
