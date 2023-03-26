@@ -5,6 +5,31 @@ $normalFont: 'Rubik', sans-serif;
 
 $mobile: 768px;
 
+$top-margin: 65px;
+
+// Use this to set behaviors available only for mobile
+@mixin mobile {
+  @media (max-width: $mobile) {
+    @content;
+  }
+}
+
+// Use this instead to set anything exclusive to desktop
+@mixin desktop {
+  @media (min-width: $mobile) {
+    @content;
+  }
+}
+
+// Use this for anything exclusively with (mouse) pointers
+@mixin hover-supported {
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      @content;
+    }
+  }
+}
+
 html {
   height: 100%;
   width: 100%;
@@ -15,106 +40,177 @@ body {
   width: 100%;
   padding: 0;
   margin: 0;
+  padding-top: calc($top-margin + 5px);
 }
 
-
 #main-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-left: 5px;
-  padding-right: 5px;
-  border: solid black;
-  border-width: 0 0 2px 0;
-  background-color: white;
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  width: 100%;
 
-  ul {
-    list-style-type: none;
-    padding: 5px;
-    margin: 0;
+  .top-bar {
+    // Positioning and Shape
+    height: $top-margin;
+    padding-left: 5px;
+    padding-right: 5px;
 
-    li {
-      display: inline-block;
-      cursor: pointer;
+    // Borders and Colors
+    border: solid black;
+    border-width: 0 0 2px 0;
+    background-color: white;
+
+    // Child behavior
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    ul {
+      list-style-type: none;
+      padding: 5px;
+      margin: 0;
+
+      li {
+        display: inline-block;
+        cursor: pointer;
+      }
     }
-  }
 
-  .left {
-    li {
-      height: 100%;
-      display: inline-block;
-      position: relative;
-      margin: 5px;
+    .left {
+      li {
+        height: 100%;
+        display: inline-block;
+        position: relative;
+        margin-left: 5px;
 
-      &:first-child {
-        font-family: $stylizedFont;
-        font-size: 32px;
-        color: rgb(186, 8, 8);
+        &:first-child {
+          font-family: $stylizedFont;
+          font-size: 32px;
+          color: rgb(186, 8, 8);
+        }
+
+        &:nth-child(2) {
+          margin-left: 15px;
+        }
+
+        &:not(:first-child) {
+          font-family: $normalFont;
+          font-size: 20px;
+
+          @include mobile() {
+            display: none;
+          }
+        }
+
+        &:not(:first-child):after {
+          content: '';
+          position: absolute;
+          background-color: black;
+          bottom: 0;
+          left: 0;
+          height: 0.1em;
+          width: 100%;
+          transform: scaleX(0);
+          transition: transform 0.3s ease-out;
+        }
+
+        &:not(:first-child):hover::after {
+          transform: scaleX(1);
+        }
       }
+    }
 
-      &:nth-child(2) {
-        margin-left: 15px;
-      }
+    .right {
+      li {
+        position: relative;
+        border-radius: 50%;
+        height: 40px;
+        width: 40px;
+        transition: background-color 0.3s ease-out;
+        -webkit-tap-highlight-color: transparent;
 
-      &:not(:first-child) {
-        font-family: $normalFont;
-        font-size: 20px;
+        &:not(:first-child){
+          @include mobile() {
+            display: none;
+          }
+        }
 
-        @media (max-width: $mobile) {
-          display: none;
+        &:first-child {
+          @include desktop() {
+            display: none;
+          }
+        }
+
+        @include hover-supported() {
+          background-color: rgb(197, 197, 197);
+        }
+
+        &:active {
+          background-color: rgb(127, 127, 127);
+          transition-duration: 0.1s;
         }
       }
 
-      &:not(:first-child):after {
-        content: '';
+      img {
         position: absolute;
-        background-color: black;
-        bottom: 0;
-        left: 0;
-        height: 0.1em;
-        width: 100%;
-        transform: scaleX(0);
-        transition: transform 0.3s ease-out;
-      }
-
-      &:not(:first-child):hover::after {
-        transform: scaleX(1);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        height: 85%;
       }
     }
   }
 
-  .right {
-    li {
-      position: relative;
-      border-radius: 50%;
-      height: 40px;
-      width: 40px;
-      transition: background-color 0.3s ease-out;
+  .categories {
+    // Positioning and Shape
+    padding: 5px;
+    padding-left: 50px;
+    height: 350px;
+    
+    // Color
+    background-color: white;
+    filter: drop-shadow(0 5px 5px rgba(142, 126, 126, 0.443));
+    
+    // Child behavior
+    > div {
+      height: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: column;
+      align-content: baseline;
+      gap: 15px;
 
-      &:not(:first-child){
-        @media (max-width: $mobile) {
-          display: none;
+      ul {
+        margin: 0;
+        list-style: none;
+        padding: 5px;
+        width: 250px;
+
+        h3 {
+          margin: 0;
+          margin-bottom: 5px;
+          font-size: 24px;
+        }
+
+        li {
+          margin: 3px;
+          padding-left: 5px;
+          font-size: 18px;
         }
       }
-
-      &:first-child {
-        @media (min-width: $mobile) {
-          display: none;
-        }
-      }
-
     }
 
-    li:hover {
-      background-color: rgb(217, 217, 217);
+    // For animation purposes
+    transition-duration: 0.3s;
+    &:not(.show) {
+      transform: translateY(-5%);
+      opacity: 0;
     }
 
-    img {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      height: 85%;
+    .show {
+      transform: translateY(0);
+      opacity: 1;
     }
+
   }
 }

@@ -1,6 +1,11 @@
-# Getting Started with Create React App
+# Online Shop Site
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project aims to create a dummy/template website to practice my frontend skills.
+
+### Technologies this project uses
+- React.js
+- TypeScript
+- Sass
 
 ## Available Scripts
 
